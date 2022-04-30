@@ -30,10 +30,10 @@ function App() {
   const onSubmit = (event) => {
     event.preventDefault();
     console.log(account);
-    if(account === 0 && selectedName === "") {
+    if(account === 0 || selectedName === "") {
       return setViewcell("코인을 선택하고 금액을 넣어주세요");
     }
-
+    setAccount('');
     return setViewcell(selectedName + "을 ~로~ 살수있습니다.");
   };
  
@@ -62,6 +62,7 @@ function App() {
           <input placeholder="please input your account"
             onChange={accountInput}
             type='number'
+            value={account}
           ></input>
           <button>변환!</button>
         </form>
