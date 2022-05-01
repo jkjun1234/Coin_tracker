@@ -32,7 +32,7 @@ function App() {
     event.preventDefault();   //기본동작(새로고침) 방지
 
     console.log(coinPrice);
-    if(account === 0 || selectedName === "" || account === '') {
+    if(account === 0 || selectedName === "" || account === '') {    //빈값과 잘못된 선택 방지
       return setViewcell("코인을 선택하고 금액을 넣어주세요");
     }
     console.log(account);
