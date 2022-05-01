@@ -4,8 +4,8 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [coins, setCoins] = useState([]);
   const [account, setAccount] = useState(0);  // 나의 자산
-  const [selectedName, setSelectedName] = useState(""); //선택한 코인이름
-  const [selectedValue, setSelectedValue] = useState(''); //코인 가격
+  const [selectedName, setSelectedName] = useState("Bitcoin"); //선택한 코인이름
+  const [selectedValue, setSelectedValue] = useState('37995.60'); //코인 가격
   const [viewcell, setViewcell] = useState('');     // 얼마 살수 있는지 알려주는 view
   useEffect(() => {
     fetch("https://api.coinpaprika.com/v1/tickers?limit=20")
@@ -18,23 +18,24 @@ function App() {
   }, []);
   const selectOnchange = (event) => {
     let selectedStr = event.target.value.split('_');    // value 값 name과 quotes 값 나누기
-    
+    console.log("target:",event.target.value);
     setSelectedValue(selectedStr[1]);
     setSelectedName(selectedStr[0]); 
   };
   const accountInput = (event) => {
     //나의 자산 입력
     setAccount(event.target.value);
-    console.log(event.target.value);
+    
   };
   const onSubmit = (event) => {
     const coinPrice = Number(selectedValue);  // 코인 가격을 숫자형으로 변환
     event.preventDefault();   //기본동작(새로고침) 방지
 
-    console.log(account);
-    if(account === 0 || selectedName === "") {
+    console.log(coinPrice);
+    if(account === 0 || selectedName === "" || account === '') {
       return setViewcell("코인을 선택하고 금액을 넣어주세요");
     }
+    console.log(account);
     setAccount('');
     setViewcell(`${selectedName}(${coinPrice})을 ${(account/coinPrice).toFixed(2)}개 살수 있습니다!.`);
   };
@@ -65,6 +66,7 @@ function App() {
             onChange={accountInput}
             type='number'
             value={account}
+            min='0'
           ></input>
           <button>변환!</button>
         </form>
