@@ -28,13 +28,15 @@ function App() {
     console.log(event.target.value);
   };
   const onSubmit = (event) => {
-    event.preventDefault();
+    const coinPrice = Number(selectedValue);  // 코인 가격을 숫자형으로 변환
+    event.preventDefault();   //기본동작(새로고침) 방지
+
     console.log(account);
     if(account === 0 || selectedName === "") {
       return setViewcell("코인을 선택하고 금액을 넣어주세요");
     }
     setAccount('');
-    return setViewcell(selectedName + "을 ~로~ 살수있습니다.");
+    setViewcell(`${selectedName}(${coinPrice})을 ${(account/coinPrice).toFixed(2)}개 살수 있습니다!.`);
   };
  
   return (
@@ -49,8 +51,8 @@ function App() {
            * API의 json 코드에서 key 값이 존재하기 때문이다.
           */}
           {coins.map((coin) => (
-            <option value={coin.name+'_'+coin.quotes.USD.price} >
-              {coin.name} ({coin.symbol}) : ${coin.quotes.USD.price}
+            <option value={coin.name+'_'+Number((coin.quotes.USD.price)).toFixed(2)} >
+              {coin.name} ({coin.symbol}) : ${Number((coin.quotes.USD.price)).toFixed(2)} {/**USD 값을 반올림 */}
             </option>
           ))
           }
